@@ -1,6 +1,16 @@
 local capabilities = require("cmp_nvim_lsp").default_capabilities() -- for CMP
 require("lspconfig").pyright.setup({
 	capabilities = capabilities, -- for CMP
+	-- for barbecue
+	on_attach = function(client, bufnr)
+		-- ...
+
+		if client.server_capabilities["documentSymbolProvider"] then
+			require("nvim-navic").attach(client, bufnr)
+		end
+
+		-- ...
+	end,
 })
 require("lspconfig").lua_ls.setup({
 	on_init = function(client)
@@ -35,4 +45,14 @@ require("lspconfig").lua_ls.setup({
 		Lua = {},
 	},
 	capabilities = capabilities, -- for CMP
+	-- for barbecue
+	on_attach = function(client, bufnr)
+		-- ...
+
+		if client.server_capabilities["documentSymbolProvider"] then
+			require("nvim-navic").attach(client, bufnr)
+		end
+
+		-- ...
+	end,
 })
