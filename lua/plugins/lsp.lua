@@ -1,17 +1,47 @@
 local capabilities = require("cmp_nvim_lsp").default_capabilities() -- for CMP
-require("lspconfig").pyright.setup({
-	capabilities = capabilities, -- for CMP
-	-- for barbecue
-	on_attach = function(client, bufnr)
-		-- ...
 
-		if client.server_capabilities["documentSymbolProvider"] then
-			require("nvim-navic").attach(client, bufnr)
-		end
+-- require("lspconfig").pyright.setup({
+-- 	capabilities = capabilities, -- for CMP
+-- 	-- for barbecue
+-- 	on_attach = function(client, bufnr)
+-- 		-- ...
+--
+-- 		if client.server_capabilities["documentSymbolProvider"] then
+-- 			require("nvim-navic").attach(client, bufnr)
+-- 		end
+--
+-- 		-- ...
+-- 	end,
+-- })
 
-		-- ...
-	end,
+require("lspconfig").pylsp.setup({
+	capabilities = capabilities,
+	settings = {
+		pylsp = {
+			plugins = {
+				flake8 = {
+					enabled = true,
+					maxLineLength = 119,
+					ignore = { "W391" },
+					-- config = "",
+				},
+				mccabe = {
+					enabled = false,
+				},
+				mypy = {
+					enabled = false,
+				},
+				pycodestyle = {
+					enabled = false,
+				},
+				pyflakes = {
+					enabled = false,
+				},
+			},
+		},
+	},
 })
+
 require("lspconfig").lua_ls.setup({
 	on_init = function(client)
 		if client.workspace_folders then
@@ -55,4 +85,8 @@ require("lspconfig").lua_ls.setup({
 
 		-- ...
 	end,
+})
+
+require("lspconfig").html.setup({
+	capabilities = capabilities,
 })

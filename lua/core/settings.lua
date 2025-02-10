@@ -2,7 +2,7 @@ local opt = vim.opt
 -----------------------------------------------------------
 -- ОБЩИЕ ОПЦИИ
 -----------------------------------------------------------
-vim.cmd.colorscheme("catppuccin")
+-- vim.cmd.colorscheme("catppuccin")
 
 -- Use English as main language
 vim.cmd([[language en_US.UTF-8]])
@@ -17,6 +17,7 @@ syntax enable
 ]])
 opt.swapfile = true
 opt.undofile = true
+opt.undolevels = 1000
 -----------------------------------------------------------
 -- ВИЗУАЛЬНЫЕ ОПЦИИ
 -----------------------------------------------------------
@@ -30,7 +31,8 @@ opt.softtabstop = 4
 opt.shiftwidth = 4 --Смещаем на 4 пробела
 opt.smarttab = true
 opt.wrap = false
-
+opt.list = true
+vim.opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
 opt.laststatus = 3
 opt.splitbelow = true
 opt.splitright = true
@@ -38,18 +40,8 @@ opt.splitright = true
 vim.wo.signcolumn = "yes"
 
 opt.cursorline = true -- Подсветка строки с курсором
+opt.cursorlineopt = "number"
 opt.termguicolors = true
-
-opt.fillchars = {
-	vert = "│",
-	fold = "⠀",
-	eob = " ", -- suppress ~ at EndOfBuffer
-	-- diff = "⣿", -- alternatives = ⣿ ░ ─ ╱
-	msgsep = "‾",
-	foldopen = "▾",
-	foldsep = "│",
-	foldclose = "▸",
-}
 
 vim.cmd([[highlight clear LineNr]])
 vim.cmd([[highlight clear SignColumn]])

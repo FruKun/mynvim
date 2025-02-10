@@ -24,6 +24,7 @@ require("lazy").setup({
 		{ "dgox16/oldworld.nvim", priority = 1000 },
 		{ "rebelot/kanagawa.nvim" },
 		{ "EdenEast/nightfox.nvim" },
+		{ "nvim-tree/nvim-web-devicons" },
 		-- LSP
 		{
 			"williamboman/mason.nvim",
@@ -94,11 +95,14 @@ require("lazy").setup({
 				-- configurations go here
 			},
 		},
+		{ "mfussenegger/nvim-dap" },
+		{ "mfussenegger/nvim-dap-python" },
+		{ "rcarriga/nvim-dap-ui", dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" }, opts = {} },
+		{ "theHamsta/nvim-dap-virtual-text", opts = {} },
 		-- Other
 		{ "nvim-telescope/telescope.nvim", dependencies = { "nvim-lua/plenary.nvim" } },
 		{ "nvim-treesitter/nvim-treesitter" },
 		{ "nvim-lualine/lualine.nvim" },
-		{ "nvim-tree/nvim-web-devicons" },
 		{ "lewis6991/gitsigns.nvim" },
 		{
 			"nvim-neo-tree/neo-tree.nvim",
@@ -111,9 +115,20 @@ require("lazy").setup({
 			},
 		},
 		{ "echasnovski/mini.clue", version = "*" },
-		{ "echasnovski/mini.pairs", version = "*" },
-		{ "echasnovski/mini.splitjoin", version = "*" },
 		{ "echasnovski/mini.notify", version = "*" },
+		{
+			"windwp/nvim-autopairs",
+			event = "InsertEnter",
+			config = true,
+			-- use opts = {} for passing setup options
+			-- this is equivalent to setup({}) function
+		},
+		{
+			"lukas-reineke/indent-blankline.nvim",
+			main = "ibl",
+			config = true,
+		},
+		{ "akinsho/toggleterm.nvim", version = "*", config = true },
 	},
 	-- Configure any other settings here. See the documentation for more details.
 	-- colorscheme that will be used when installing plugins.

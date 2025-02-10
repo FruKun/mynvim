@@ -9,7 +9,7 @@ vim.cmd([[autocmd BufEnter * set fo-=c fo-=r fo-=o]])
 vim.cmd([[
 autocmd FileType xml,html,xhtml,css,scss,javascript,lua,yaml,htmljinja setlocal shiftwidth=2 tabstop=2
 ]])
-
+-- Notify when file changed
 augroup("auto_read", { clear = true })
 autocmd({ "FileChangedShellPost" }, {
 	pattern = "*",
@@ -28,7 +28,7 @@ autocmd({ "FocusGained", "CursorHold" }, {
 		end
 	end,
 })
-
+-- Check file type
 autocmd({ "BufRead" }, {
 	pattern = "*",
 	group = augroup("non_utf8_file", { clear = true }),
@@ -38,24 +38,14 @@ autocmd({ "BufRead" }, {
 		end
 	end,
 })
-autocmd("TermOpen", {
-	group = augroup("term_start", { clear = true }),
-	pattern = "*",
-	callback = function()
-		-- Do not use number and relative number for terminal inside nvim
-		vim.wo.relativenumber = false
-		vim.wo.number = false
 
-		-- Go to insert mode by default to start typing command
-		vim.cmd("startinsert")
-	end,
-})
 -- Resize all windows when we resize the terminal
 autocmd("VimResized", {
 	group = augroup("win_autoresize", { clear = true }),
 	desc = "autoresize windows on resizing operation",
 	command = "wincmd =",
 })
+-- open neo tree when start nvim in dir
 local function open_nvim_tree(data)
 	-- check if buffer is a directory
 	local directory = vim.fn.isdirectory(data.file) == 1
@@ -72,27 +62,6 @@ end
 
 autocmd({ "VimEnter" }, { callback = open_nvim_tree })
 
-local number_toggle_group = augroup("numbertoggle", { clear = true })
-autocmd({ "BufEnter", "FocusGained", "InsertLeave", "WinEnter" }, {
-	pattern = "*",
-	group = number_toggle_group,
-	desc = "togger line number",
-	callback = function()
-		if vim.wo.number then
-			vim.wo.relativenumber = true
-		end
-	end,
-})
-autocmd({ "BufLeave", "FocusLost", "InsertEnter", "WinLeave" }, {
-	group = number_toggle_group,
-	desc = "togger line number",
-	callback = function()
-		if vim.wo.number then
-			vim.wo.relativenumber = false
-		end
-	end,
-})
-
 -- save colorscheme
 autocmd({ "VimEnter" }, {
 	nested = true,
@@ -103,5 +72,39 @@ autocmd({ "VimEnter" }, {
 autocmd({ "Colorscheme" }, {
 	callback = function(params)
 		vim.g.SCHEME = params.match
+	end,
+})
+
+-- The following two autocommands are used to highlight references of the
+-- word under your cursor when your cursor rests there for a little while.
+--    See `:help CursorHold` for information about when this is executed
+--
+-- When you move your cursor, the highlights will be cleared (the second autocommand).
+vim.api.nvim_create_autocmd("LspAttach", {
+	group = vim.api.nvim_create_augroup("kickstart-lsp-attach", { clear = true }),
+	callback = function(event)
+		local client = vim.lsp.get_client_by_id(event.data.client_id)
+		if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
+			local highlight_augroup = augroup("kickstart-lsp-highlight", { clear = false })
+			autocmd({ "CursorHold", "CursorHoldI" }, {
+				buffer = event.buf,
+				group = highlight_augroup,
+				callback = vim.lsp.buf.document_highlight,
+			})
+
+			autocmd({ "CursorMoved", "CursorMovedI" }, {
+				buffer = event.buf,
+				group = highlight_augroup,
+				callback = vim.lsp.buf.clear_references,
+			})
+
+			autocmd("LspDetach", {
+				group = vim.api.nvim_create_augroup("kickstart-lsp-detach", { clear = true }),
+				callback = function(event2)
+					vim.lsp.buf.clear_references()
+					vim.api.nvim_clear_autocmds({ group = "kickstart-lsp-highlight", buffer = event2.buf })
+				end,
+			})
+		end
 	end,
 })
