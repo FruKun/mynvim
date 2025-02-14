@@ -62,18 +62,18 @@ end
 
 autocmd({ "VimEnter" }, { callback = open_nvim_tree })
 
--- save colorscheme
-autocmd({ "VimEnter" }, {
-	nested = true,
-	callback = function()
-		vim.cmd.colorscheme(vim.g.SCHEME)
-	end,
-})
-autocmd({ "Colorscheme" }, {
-	callback = function(params)
-		vim.g.SCHEME = params.match
-	end,
-})
+-- -- save colorscheme
+-- autocmd({ "VimEnter" }, {
+-- 	nested = true,
+-- 	callback = function()
+-- 		vim.cmd.colorscheme(vim.g.SCHEME)
+-- 	end,
+-- })
+-- autocmd({ "Colorscheme" }, {
+-- 	callback = function(params)
+-- 		vim.g.SCHEME = params.match
+-- 	end,
+-- })
 
 -- The following two autocommands are used to highlight references of the
 -- word under your cursor when your cursor rests there for a little while.

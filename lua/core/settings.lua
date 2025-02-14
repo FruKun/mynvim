@@ -2,7 +2,7 @@ local opt = vim.opt
 -----------------------------------------------------------
 -- ОБЩИЕ ОПЦИИ
 -----------------------------------------------------------
--- vim.cmd.colorscheme("catppuccin")
+vim.cmd.colorscheme("carbonfox")
 
 -- Use English as main language
 vim.cmd([[language en_US.UTF-8]])

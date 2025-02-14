@@ -27,7 +27,7 @@ cmp.setup({
 		["<C-f>"] = cmp.mapping.scroll_docs(4),
 		["<C-Space>"] = cmp.mapping.complete(),
 		["<C-e>"] = cmp.mapping.abort(),
-		["<CR>"] = cmp.mapping(function(fallback)
+		["<S-CR>"] = cmp.mapping(function(fallback)
 			if cmp.visible() then
 				if luasnip.expandable() then
 					luasnip.expand()
@@ -102,3 +102,4 @@ cmp.setup.cmdline(":", {
 	}),
 	matching = { disallow_symbol_nonprefix_matching = false },
 })
+require("luasnip.loaders.from_vscode").lazy_load()

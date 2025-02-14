@@ -22,7 +22,6 @@ require("lazy").setup({
 		-- Themes
 		{ "catppuccin/nvim", name = "catppuccin", priority = 1000 },
 		{ "dgox16/oldworld.nvim", priority = 1000 },
-		{ "rebelot/kanagawa.nvim" },
 		{ "EdenEast/nightfox.nvim" },
 		{ "nvim-tree/nvim-web-devicons" },
 		-- LSP
@@ -43,6 +42,7 @@ require("lazy").setup({
 			version = "v2.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
 			-- install jsregexp (optional!).
 			build = "make install_jsregexp",
+			dependencies = { "rafamadriz/friendly-snippets" },
 		},
 		-- IDE
 		{ "stevearc/conform.nvim" },
