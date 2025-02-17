@@ -17,7 +17,10 @@ map("t", "<Leader>.", "<C-\\><C-n>")
 map("t", "<ESC>", "<C-\\><C-n>")
 -- Move macro
 map("n", "q", "<Nop>", { desc = "Macro", noremap = true })
--- delete single character without copying into register
+-- Jump
+map("n", "<C-d>", "<C-d>zz")
+map("n", "<C-u>", "<C-u>zz")
+-- Delete single character without copying into register
 map("n", "x", '"_x', { desc = "delete char without copying" })
 -- Reload configuration without restart nvim
 map("n", "<leader>r", ":so %<CR>", { desc = "reload current open config file" })
@@ -54,6 +57,7 @@ map(
 -- Buffers
 map("n", "<Tab>", ":bnext<CR>")
 map("n", "<s-Tab>", ":bprevious<CR>")
+map("n", "<leader>d", ":bdelete<CR>")
 -- remove highlight
 map("n", "<leader>/", ":nohl<CR>", { desc = "clear search highlights" })
 -- ==== Plugins ==== --
@@ -121,9 +125,9 @@ end, { desc = "breakpoint" })
 -- 	local widgets = require("dap.ui.widgets")
 -- 	widgets.centered_float(widgets.scopes)
 -- end)
-map("n", "<leader>dm", "<cmd>lua require('dap-python').test_method()<CR>", { desc = "test method" })
-map("n", "<leader>dc", "<cmd>lua require('dap-python').test_class()<CR>", { desc = "test class" })
-map("v", "<leader>ds", "<ESC><cmd>lua require('dap-python').debug_selection()<CR>", { desc = "debug selection" })
+map("n", "<leader>xm", "<cmd>lua require('dap-python').test_method()<CR>", { desc = "test method" })
+map("n", "<leader>xc", "<cmd>lua require('dap-python').test_class()<CR>", { desc = "test class" })
+map("v", "<leader>xs", "<ESC><cmd>lua require('dap-python').debug_selection()<CR>", { desc = "debug selection" })
 map("n", "<leader>xt", "<cmd>lua require('dapui').toggle()<CR>", { desc = "dap ui toggle" })
 -- F9, execute code!
 local execute_code = function()
